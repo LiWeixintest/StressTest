@@ -1,0 +1,9 @@
+pip install qt5-tools
+pip install pyserial
+pip install uiautomator2
+pip install adbutils
+pip install loguru
+pip install pyqt5-plugins
+pip install pyqt5-tools
+pip install qt5-applications
+pip install qt5-tools

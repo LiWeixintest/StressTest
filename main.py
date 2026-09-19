@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'autotest.ui'
@@ -1089,6 +1090,8 @@ class Ui_Form(QObject,MainTest):
 
     def get_pushButton_5(self):
         # 防止重复点击
+        if adb.device_list() == []:
+            QtWidgets.QMessageBox.critical(self.listWidget.window(), "adb连接", "请检查adb连接！")
         if self._test_thread is not None and self._test_thread.is_alive():
             QtWidgets.QMessageBox.warning(self.listWidget.window(), "提示", "测试正在进行中，请先停止当前测试！")
             return

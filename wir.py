@@ -1057,11 +1057,12 @@ class AndroidTest():
             time.sleep(1)
             self.d.xpath('//*[@text="Connectivity"]').click()
             time.sleep(1)
-            if not self.d.xpath('//*[@content-desc="Connected Vehicle Features"]/android.widget.FrameLayout[1]').exists():
+            print(1)
+            if not self.d.xpath('//*[@content-desc="Connected Vehicle Features"]/android.widget.FrameLayout[1]').exists:
                 self.smart_swipe_to_top_ex()
             self.d.xpath('//*[@content-desc="Connected Vehicle Features"]/android.widget.FrameLayout[1]').click()
             time.sleep(30)
-            if self.d.xpath('//*[@content-desc="Connected Vehicle Features"]/android.widget.FrameLayout[1]').exists():
+            if self.d.xpath('//*[@content-desc="Connected Vehicle Features"]/android.widget.FrameLayout[1]').exists:
                 return True
             else:
                 return False
@@ -1693,7 +1694,7 @@ if __name__ == "__main__":
     #cantest.carpwer_change(CarPwer.STR)
     #cantest.carpwer_change(CarPwer.Sleep)
     androidtest = AndroidTest()
-    androidtest.online_music()
+    androidtest.get_ccs_status_ex()
     #androidtest.control_ccs()
     #androidtest.connect_wifi()
     #ECG = ECGLogCollector()

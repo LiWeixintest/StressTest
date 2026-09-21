@@ -841,13 +841,26 @@ class AndroidTest():
             if not self.d(resourceId="com.adayo.settings:id/wifi_switch_button").exists:
                 self.smart_swipe_to_top_ex() #滑动到顶部
             time.sleep(0.5)
-            self.d.xpath('//*[@resource-id="com.adayo.settings:id/wifi_setting_scroll"]').get().scroll_to(f'//*[@text="{name}"]')
+            if not self.d(resourceId="com.adayo.settings:id/tv_main_title", text=f"{name}").exists:
+                self.d.xpath('//*[@resource-id="com.adayo.settings:id/wifi_setting_scroll"]').get().scroll_to(f'//*[@text="{name}"]')
             if not self.d(resourceId="com.adayo.settings:id/wifi_connected_show").exists():
                 if  self.d(resourceId="com.adayo.settings:id/tv_main_title", text=f"{name}").exists:
                     self.d(resourceId="com.adayo.settings:id/tv_main_title", text=f"{name}").click()
                 elif  self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).exists:
                     self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).click()
-            elif self.d(resourceId="com.adayo.settings:id/tv_state").get_text() == "Not connected":
+            elif self.d(resourceId="com.adayo.settings:id/tv_state").exists:
+                if self.d(resourceId="com.adayo.settings:id/tv_state").get_text() == "Not connected":
+                    if  self.d(resourceId="com.adayo.settings:id/tv_main_title", text=f"{name}").exists:
+                        self.d(resourceId="com.adayo.settings:id/tv_main_title", text=f"{name}").click()
+                    elif  self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).exists:
+                        self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).click()
+            elif self.d(resourceId="com.adayo.settings:id/tv_sub_title").exists:
+                if self.d(resourceId="com.adayo.settings:id/tv_sub_title").get_text() == "Not connected":
+                    if  self.d(resourceId="com.adayo.settings:id/tv_main_title", text=f"{name}").exists:
+                        self.d(resourceId="com.adayo.settings:id/tv_main_title", text=f"{name}").click()
+                    elif  self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).exists:
+                        self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).click()
+            elif not self.d(resourceId="com.adayo.settings:id/iv_leading_icon").exists:
                 if  self.d(resourceId="com.adayo.settings:id/tv_main_title", text=f"{name}").exists:
                     self.d(resourceId="com.adayo.settings:id/tv_main_title", text=f"{name}").click()
                 elif  self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).exists:
@@ -869,12 +882,21 @@ class AndroidTest():
             n = 0
             while n < 10:
                 time.sleep(1)
-                self.d.xpath('//*[@resource-id="com.adayo.settings:id/wifi_setting_scroll"]').get().scroll_to('//*[@resource-id="com.adayo.settings:id/tv_state"]')
+                if not self.d(resourceId="com.adayo.settings:id/tv_main_title", text="Wi-Fi").exists:
+                    self.d.xpath('//*[@resource-id="com.adayo.settings:id/wifi_setting_scroll"]').get().scroll_to('//*[@text="Wi-Fi"]')
                 if not self.d(resourceId="com.adayo.settings:id/tv_state").exists():
                     self.smart_swipe_to_top()
                     time.sleep(1)
-                connected=self.d(resourceId="com.adayo.settings:id/wifi_connected_show").exists()#已连接成功图标是否存在
-                state = self.d(resourceId="com.adayo.settings:id/tv_state").get_text()#连接状态获取"已连接"、"未连接"
+                connected= False#已连接成功图标是否存在
+                if self.d(resourceId="com.adayo.settings:id/iv_leading_icon").exists:
+                    connected=True
+                elif self.d(resourceId="com.adayo.settings:id/wifi_connected_show").exists:
+                    connected=True
+                state = ""
+                if self.d(resourceId="com.adayo.settings:id/tv_state").exists:#连接状态获取"已连接"、"未连接"
+                    state = self.d(resourceId="com.adayo.settings:id/tv_state").get_text()
+                elif self.d(resourceId="com.adayo.settings:id/tv_sub_title").exists:
+                    state = self.d(resourceId="com.adayo.settings:id/tv_sub_title").get_text()
                 if connected==True or ("Not connected" not in state) :
                     #print("wifi连接成功")
                     return True
@@ -912,14 +934,27 @@ class AndroidTest():
                 self.d.xpath('//*[@content-desc="Wi-Fi"]/android.widget.FrameLayout[1]').click()
             if not self.d(resourceId="com.adayo.settings:id/wifi_switch_button").exists:
                 self.smart_swipe_to_top() #滑动到顶部
+            if not self.d(resourceId="com.adayo.settings:id/bt_switch").exists:
+                sliding='//*[@resource-id="com.adayo.settings:id/view_pager2"]/androidx.recyclerview.widget.RecyclerView[1]'
+                target='//*[@resource-id="com.adayo.settings:id/bt_switch"]'
+                self.scroll_search(sliding, target)
             time.sleep(0.5)
             self.d.xpath('//*[@resource-id="com.adayo.settings:id/wifi_setting_scroll"]').get().scroll_to(f'//*[@text="{name}"]')
             if self.d(resourceId="com.adayo.settings:id/wifi_connected_show").exists():
-                self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).click()
+                if self.d(resourceId="com.adayo.settings:id/tv_main_title", text=name).exists:
+                    self.d(resourceId="com.adayo.settings:id/tv_main_title", text=name).click()
+                if self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).exists:
+                    self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).click()
+            if self.d(resourceId="com.adayo.settings:id/iv_leading_icon").exists():
+                if self.d(resourceId="com.adayo.settings:id/tv_main_title", text=name).exists:
+                    self.d(resourceId="com.adayo.settings:id/tv_main_title", text=name).click()
+                if self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).exists:
+                    self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).click()
             time.sleep(3)
             connected=self.d(resourceId="com.adayo.settings:id/wifi_connected_show").exists()#已连接成功图标是否存在
             #state = self.d(resourceId="com.adayo.settings:id/tv_state").get_text()#连接状态获取"已连接"、"未连接"
-            if connected==True:
+            connected_icon=self.d(resourceId="com.adayo.settings:id/iv_leading_icon").exists()
+            if connected==True or connected_icon==True:
                 return True
         except Exception as e:
             Logger.error(f"断开wifi异常: {e}")
@@ -947,6 +982,10 @@ class AndroidTest():
                 self.d.xpath('//*[@content-desc="Wi-Fi"]/android.widget.FrameLayout[1]').click()
             if not self.d(resourceId="com.adayo.settings:id/bt_switch").exists:
                 self.smart_swipe_to_top_ex()
+            if not self.d(resourceId="com.adayo.settings:id/bt_switch").exists:
+                sliding='//*[@resource-id="com.adayo.settings:id/view_pager2"]/androidx.recyclerview.widget.RecyclerView[1]'
+                target='//*[@resource-id="com.adayo.settings:id/bt_switch"]'
+                self.scroll_search(sliding, target)
             wifi=self.d(resourceId="com.adayo.settings:id/bt_switch").info["checked"] #获取wifi开关状态
             if wifi==False:
                 self.d(resourceId="com.adayo.settings:id/bt_switch").click()
@@ -976,6 +1015,10 @@ class AndroidTest():
                 self.d.xpath('//*[@content-desc="Wi-Fi"]/android.widget.FrameLayout[1]').click()
             if not self.d(resourceId="com.adayo.settings:id/bt_switch").exists:
                 self.smart_swipe_to_top_ex()
+            if not self.d(resourceId="com.adayo.settings:id/bt_switch").exists:
+                sliding='//*[@resource-id="com.adayo.settings:id/view_pager2"]/androidx.recyclerview.widget.RecyclerView[1]'
+                target='//*[@resource-id="com.adayo.settings:id/bt_switch"]'
+                self.scroll_search(sliding, target)
             wifi=self.d(resourceId="com.adayo.settings:id/bt_switch").info["checked"] #获取wifi开关状态
             if wifi==True:
                 self.d(resourceId="com.adayo.settings:id/bt_switch").click()
@@ -1097,15 +1140,18 @@ class AndroidTest():
                 self.d(text="Wi-Fi").click()
             elif self.d.xpath('//*[@content-desc="Wi-Fi"]/android.widget.FrameLayout[1]').exists():
                 self.d.xpath('//*[@content-desc="Wi-Fi"]/android.widget.FrameLayout[1]').click()
-            self.smart_swipe_to_top()
+            sliding='//*[@resource-id="com.adayo.settings:id/view_pager2"]/androidx.recyclerview.widget.RecyclerView[1]'
+            target='//*[@resource-id="com.adayo.settings:id/bt_switch"]'
+            self.scroll_search(sliding, target)
             wifi=self.d(resourceId="com.adayo.settings:id/bt_switch").info["checked"] #获取wifi开关状态
             if wifi == True:
                 #print("WiFi已开启")
                 connected=self.d(resourceId="com.adayo.settings:id/wifi_connected_show").exists()#已连接成功图标是否存在
+                connected_icon=self.d(resourceId="com.adayo.settings:id/iv_leading_icon").exists()
                 #if not self.d(resourceId="com.adayo.settings:id/tv_state").exists():
                     #time.sleep(1)
                 #state = self.d(resourceId="com.adayo.settings:id/tv_state").get_text()#连接状态获取"已连接"、"未连接"
-                if connected==True:
+                if connected==True or connected_icon==True:
                     #print("wifi连接成功")
                     return 2
                 elif connected != True:
@@ -1694,7 +1740,9 @@ if __name__ == "__main__":
     #cantest.carpwer_change(CarPwer.STR)
     #cantest.carpwer_change(CarPwer.Sleep)
     androidtest = AndroidTest()
-    androidtest.get_ccs_status_ex()
+    #androidtest.connect_wifi_ex()
+    androidtest.disconnect_wifi_ex()
+    #androidtest.smart_swipe_to_top_ex()
     #androidtest.control_ccs()
     #androidtest.connect_wifi()
     #ECG = ECGLogCollector()

@@ -792,6 +792,8 @@ class AndroidTest():
             subp = Popen(command, stdout=PIPE, stderr=subprocess.STDOUT, shell=True)
             self.enter_app(Apps.digital_owners_manual)
             time.sleep(5)
+            if not self.d(resourceId="com.ford.sync.electronicmanual:id/btn_view_manual").exists:
+                subp = Popen(command, stdout=PIPE, stderr=subprocess.STDOUT, shell=True)
             self.d(resourceId="com.ford.sync.electronicmanual:id/btn_view_manual").click()
             time.sleep(10)
             retry_count = 0
@@ -1741,7 +1743,8 @@ if __name__ == "__main__":
     #cantest.carpwer_change(CarPwer.Sleep)
     androidtest = AndroidTest()
     #androidtest.connect_wifi_ex()
-    androidtest.disconnect_wifi_ex()
+    androidtest.digital_owners_manual_ex()
+
     #androidtest.smart_swipe_to_top_ex()
     #androidtest.control_ccs()
     #androidtest.connect_wifi()

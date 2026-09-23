@@ -55,10 +55,10 @@ def search_text_in_txt_files(folder_path, search_content):
 if __name__ == "__main__":
     # 设置要搜索的文件夹路径
     #folder = input("请输入文件夹路径: ").strip()
-    folder = r"E:\工作文档\福特\问题\625\新建文件夹 (3)\Log20260920111016914\logcat\logcat"
+    folder = r"E:\工作文档\福特\问题\707\logs\AndroidLog\logcat\logcat"
     # 设置要查找的内容
     #search_text = input("请输入要查找的内容: ").strip()
-    search_text = "CarLocationTest: onLocationChanged"#"beginning of crash"#"onLocationChanged"
+    search_text = "beginning of crash"#"onLocationChanged"
     # 执行搜索
     result = search_text_in_txt_files(folder, search_text)
     

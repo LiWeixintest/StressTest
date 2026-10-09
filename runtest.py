@@ -16,7 +16,6 @@ class MainTest(AndroidTest,PowerSupplyControl,CanMessage,TCULogCollector,ECGLogC
                 else:
                     break
             self.open_wifi()
-            time.sleep(0.5)
             self.connect_wifi()
             index = 0
             while index < count:

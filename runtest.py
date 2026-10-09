@@ -26,7 +26,7 @@ class MainTest(AndroidTest,PowerSupplyControl,CanMessage,TCULogCollector,ECGLogC
                 self.close_wifi()
                 time.sleep(1)
                 self.open_wifi()
-                time.sleep(15)
+                time.sleep(30)
                 wifi_status = self.get_wifi_status() # 获取wifi状态
                 network_card = self.get_network() # 获取网卡状态
                 network_status= self.online_music()  and self.account()# 是否可以访问网络
@@ -1126,7 +1126,7 @@ class MainTest(AndroidTest,PowerSupplyControl,CanMessage,TCULogCollector,ECGLogC
                 self.close_wifi_ex()
                 time.sleep(1)
                 self.open_wifi_ex()
-                time.sleep(15)
+                time.sleep(30)
                 wifi_status = self.get_wifi_status_ex() # 获取wifi状态
                 network_card = self.get_network() # 获取网卡状态
                 network_status= self.digital_owners_manual_ex()

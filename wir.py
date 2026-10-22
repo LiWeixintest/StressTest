@@ -525,6 +525,10 @@ class AndroidTest():
                     self.d(resourceId="com.baidu.car.radio:id/iv_arrow").click()
                 time.sleep(0.5)
                 self.d(text="QQ音乐").click()
+            if self.d(resourceId="com.baidu.car.radio:id/btn_empty_page").exists():
+                self.d(resourceId="com.baidu.car.radio:id/btn_empty_page").click()
+                time.sleep(1)
+                self.d(resourceId="com.baidu.iov.faceos:id/un_sign_confirm").click()
             time.sleep(0.5)
             if self.d(resourceId="com.baidu.car.radio:id/btn_retry_refresh").exists():
                 self.d(resourceId="com.baidu.car.radio:id/btn_retry_refresh").click()
@@ -552,6 +556,7 @@ class AndroidTest():
                     self.d(resourceId="com.baidu.car.radio:id/iv_arrow").click()
                 time.sleep(0.5)
                 self.d(text="喜马拉雅").click()
+
             if self.d(resourceId="com.baidu.car.radio:id/contentText",text="登录喜马拉雅账号并开通VIP即可畅听全部内容").exists():
                 if self.d(resourceId="com.baidu.car.radio:id/rightButton").exists():
                     self.d(resourceId="com.baidu.car.radio:id/rightButton").click()
@@ -620,6 +625,10 @@ class AndroidTest():
                     self.d(resourceId="com.baidu.car.radio:id/iv_arrow").click()
                 time.sleep(0.5)
                 self.d(text="云听").click()
+            if self.d(resourceId="com.edog.car:id/cb").exists():
+                self.d(resourceId="com.edog.car:id/cb").click()
+            if self.d(resourceId="com.edog.car:id/tvStart").exists():
+                self.d(resourceId="com.edog.car:id/tvStart").click()
             if self.d(resourceId="com.edog.car:id/tvStart").exists():
                 self.d(resourceId="com.edog.car:id/tvStart").click()
             if self.d(resourceId="com.edog.car:id/duration_12_month").exists():
@@ -1214,6 +1223,10 @@ class AndroidTest():
                 self.smart_swipe_to_top() #滑动到顶部
             time.sleep(0.5)
             self.d.xpath('//*[@resource-id="com.adayo.settings:id/wifi_setting_scroll"]').get().scroll_to(f'//*[@text="{name}"]')
+            if not self.d(text=name).exists():
+                target = f'//*[@text="{name}"]'
+                sliding='//*[@resource-id="com.adayo.settings:id/wifi_setting_scroll"]'
+                self.scroll_search(sliding, target)
             if not self.d(resourceId="com.adayo.settings:id/wifi_connected_show").exists():
                 self.d(resourceId="com.adayo.settings:id/tv_device_name", text=name).click()
             elif self.d(resourceId="com.adayo.settings:id/tv_state").get_text() != "已连接":
@@ -1233,6 +1246,7 @@ class AndroidTest():
                 connected=self.d(resourceId="com.adayo.settings:id/wifi_connected_show").exists()#已连接成功图标是否存在
                 if not self.d(resourceId="com.adayo.settings:id/tv_state").exists():
                     time.sleep(1)
+                    self.smart_swipe_to_top()
                 state = self.d(resourceId="com.adayo.settings:id/tv_state").get_text()#连接状态获取"已连接"、"未连接"
                 if connected==True or ("已连接" in state) :
                     #print("wifi连接成功")
@@ -1336,6 +1350,7 @@ class AndroidTest():
                 connected=self.d(resourceId="com.adayo.settings:id/wifi_connected_show").exists()#已连接成功图标是否存在
                 if not self.d(resourceId="com.adayo.settings:id/tv_state").exists():
                     time.sleep(1)
+                    self.smart_swipe_to_top()
                 state = self.d(resourceId="com.adayo.settings:id/tv_state").get_text()#连接状态获取"已连接"、"未连接"
                 if connected==True or ("已连接" in state) :
                     #print("wifi连接成功")
@@ -1742,8 +1757,8 @@ if __name__ == "__main__":
     #cantest.carpwer_change(CarPwer.STR)
     #cantest.carpwer_change(CarPwer.Sleep)
     androidtest = AndroidTest()
-    #androidtest.connect_wifi_ex()
-    androidtest.digital_owners_manual_ex()
+    #androidtest.system_reset()
+    androidtest.get_wifi_status()
 
     #androidtest.smart_swipe_to_top_ex()
     #androidtest.control_ccs()

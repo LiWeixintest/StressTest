@@ -698,6 +698,8 @@ class AndroidTest():
                 self.devices_init()
             self.enter_app()
             time.sleep(0.5)
+            if not self.d.xpath('//*[@resource-id="com.adayo.settings:id/design_navigation_view"]').exists:
+                time.sleep(1)
             self.d.xpath('//*[@resource-id="com.adayo.settings:id/design_navigation_view"]').get().scroll_to('//*[@text="连接"]')
             #d(scrollable=True).scroll.to(text="连接")
             time.sleep(0.5)
@@ -720,6 +722,8 @@ class AndroidTest():
                 self.devices_init()
             self.enter_app()
             time.sleep(0.5)
+            if not self.d.xpath('//*[@resource-id="com.adayo.settings:id/design_navigation_view"]').exists:
+                time.sleep(1)
             self.d.xpath('//*[@resource-id="com.adayo.settings:id/design_navigation_view"]').get().scroll_to('//*[@text="连接"]')
             #self.d(scrollable=True).scroll.to(text="连接")
             time.sleep(0.5)
@@ -1247,7 +1251,11 @@ class AndroidTest():
                 if not self.d(resourceId="com.adayo.settings:id/tv_state").exists():
                     time.sleep(1)
                     self.smart_swipe_to_top()
-                state = self.d(resourceId="com.adayo.settings:id/tv_state").get_text()#连接状态获取"已连接"、"未连接"
+                state = "未连接"
+                if self.d(resourceId="com.adayo.settings:id/tv_state").exists()==False and self.d(resourceId="com.adayo.settings:id/no_save_wifi_text").exists()==True:
+                    state = "未连接"
+                if self.d(resourceId="com.adayo.settings:id/tv_state").exists():
+                    state = self.d(resourceId="com.adayo.settings:id/tv_state").get_text()#连接状态获取"已连接"、"未连接"
                 if connected==True or ("已连接" in state) :
                     #print("wifi连接成功")
                     #return True
@@ -1757,7 +1765,8 @@ if __name__ == "__main__":
     #cantest.carpwer_change(CarPwer.STR)
     #cantest.carpwer_change(CarPwer.Sleep)
     androidtest = AndroidTest()
-    #androidtest.system_reset()
+    androidtest.open_wifi()
+    androidtest.connect_wifi()
     androidtest.get_wifi_status()
 
     #androidtest.smart_swipe_to_top_ex()
